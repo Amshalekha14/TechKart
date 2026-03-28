@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TechKart – Best Tech Accessories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand" onclick="showPage('home',document.querySelectorAll('.nav-link')[0])">
+    <img src="./FullLogo.jpg" alt="Logo" class="nav-logo"/>
+    <span class="nav-title">TechKart</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="nav-link active" onclick="showPage('home',this)">🏠 Home</a></li>
+    <li><a href="#" class="nav-link" onclick="showPage('products',this)">🛍️ Products</a></li>
+    <li><a href="#" class="nav-link" onclick="showPage('cart',this)">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-wishlist-btn" onclick="showPage('wishlist',null)" title="Wishlist">
+      🤍 <span class="wishlist-count" id="wishBadge" style="display:none">0</span>
+    </button>
+    <div class="nav-user">👤</div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ New Arrivals Every Week</div>
+      <h1 class="hero-title">Best Tech<br/><span class="grad">Accessories</span><br/>For Everyone</h1>
+      <p class="hero-desc">16 premium products across 6 categories. From gaming gear to smart home — all at unbeatable prices.</p>
+      <div class="hero-actions">
+        <button class="btn-gold" onclick="showPage('products',document.querySelectorAll('.nav-link')[1])">Shop Now →</button>
+        <button class="btn-primary" onclick="showPage('wishlist',null)">🤍 My Wishlist</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">16+</div><div class="hero-stat-label">Products</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Categories</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">4.5★</div><div class="hero-stat-label">Avg Rating</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">₹49</div><div class="hero-stat-label">Delivery</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-orb-wrap">
+        <div class="orb-ring orb-ring-1"></div>
+        <div class="orb-ring orb-ring-2"></div>
+        <div class="hero-orb"></div>
+        <div class="float-chip c1">🎧 <span>Headphones</span> <div class="dot" style="background:#f59e0b"></div></div>
+        <div class="float-chip c2">🖱️ <span>Gaming</span> <div class="dot" style="background:#8b5cf6"></div></div>
+        <div class="float-chip c3">💾 <span>Storage</span> <div class="dot" style="background:#10b981"></div></div>
+        <div class="float-chip c4">⌚ <span>Wearables</span> <div class="dot" style="background:#f59e0b"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><div class="title-bar"></div>Featured Products</div>
+      <button class="btn-primary" onclick="showPage('products',document.querySelectorAll('.nav-link')[1])">View All 16 →</button>
+    </div>
+    <div class="product-grid product-grid-home" id="featuredGrid"></div>
+  </section>
+</div>
+
+<!-- PRODUCTS -->
+<div id="page-products" class="page">
+  <div class="page-header">
+    <h2>All Products</h2>
+    <p>16 premium tech accessories across 6 categories</p>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="icon">🔍</span>
+      <input class="search-input" placeholder="Search products…" id="searchInput" oninput="searchQuery=this.value.toLowerCase();renderProducts()"/>
+    </div>
+    <select class="sort-select" onchange="sortMode=this.value;renderProducts()">
+      <option value="default">Sort: Default</option>
+      <option value="low">Price: Low → High</option>
+      <option value="high">Price: High → Low</option>
+      <option value="rating">Top Rated</option>
+      <option value="reviews">Most Reviewed</option>
+    </select>
+  </div>
+  <div class="toolbar" style="padding-top:0;gap:8px" id="catBtns"></div>
+  <div class="results-count" id="resultsCount"></div>
+  <div class="product-grid-wrap">
+    <div class="product-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- CART -->
+<div id="page-cart" class="page">
+  <div class="page-header">
+    <h2>Your Cart</h2>
+    <p>Review items before checkout</p>
+  </div>
+  <div class="cart-layout">
+    <div class="cart-list" id="cartList"></div>
+    <div class="cart-summary-box" id="cartSummary"></div>
+  </div>
+</div>
+
+<!-- WISHLIST -->
+<div id="page-wishlist" class="page">
+  <div class="page-header">
+    <h2>🤍 My Wishlist</h2>
+    <p>Products you've saved for later</p>
+  </div>
+  <div class="wishlist-layout">
+    <div class="product-grid" id="wishlistGrid"></div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div id="page-checkout" class="page">
+  <div class="page-header">
+    <h2>Checkout</h2>
+    <p>Fill in your details to complete the order</p>
+  </div>
+  <div class="checkout-layout">
+    <div class="checkout-form-card">
+      <div class="form-section-title">📦 Delivery Details</div>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input type="text" id="custName" placeholder="Your full name"/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="custPhone" placeholder="10-digit mobile number"/></div>
+      </div>
+      <div class="form-group"><label>Delivery Address</label><textarea id="custAddress" placeholder="House/Flat No, Street, Area" rows="3"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input type="text" id="custCity" placeholder="City"/></div>
+        <div class="form-group"><label>PIN Code</label><input type="text" id="custPin" placeholder="6-digit PIN"/></div>
+      </div>
+      <button class="btn-gold btn-full" style="margin-top:8px" onclick="placeOrder()">✓ Place Order</button>
+    </div>
+    <div class="order-review-card" id="orderReview"></div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="page-success" class="page">
+  <div class="success-page">
+    <div class="success-anim">🎉</div>
+    <h2>Order Placed!</h2>
+    <p id="successMsg"></p>
+    <div class="order-id" id="successOrderId"></div>
+    <button class="btn-gold" onclick="showPage('home',document.querySelectorAll('.nav-link')[0])">Continue Shopping</button>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
